@@ -38,9 +38,11 @@ public class GameView : View
             for (var y = 0; y < Constants.MapHeight; y++)
             {
                 var tile = _model.Map[x, y];
-
-                _spriteBatch.Draw(ViewResources.SandTile, tile.Bounds, Color.White);
-                // _spriteBatch.DrawBox(tile.Bounds, Color.Red, thickness: 1f);
+                var bounds = tile.Bounds;
+                bounds.Offset(Constants.ScreenOffset);
+                
+                _spriteBatch.Draw(ViewResources.SandTile, bounds, Color.White);
+                //_spriteBatch.DrawBox(bounds, Color.Red, thickness: 1f);
                 // _spriteBatch.DrawString(Textures.BasicFont, $"[{x},{y}]", tile.Bounds.Center.ToVector2(), Color.Black);
             }
         }
@@ -67,9 +69,10 @@ public class GameView : View
     {
         foreach (var bullet in _model.Bullets)
         {
-            _spriteBatch.Draw(ViewResources.Bullet, new Rectangle(bullet.Position.ToPoint(), bullet.Size.ToPoint()), null, Color.White, bullet.Rotation,
+            _spriteBatch.Draw(ViewResources.Bullet, new Rectangle(bullet.Position.ToPoint(), bullet.Size.ToPoint()),
+                null, Color.White, bullet.Rotation,
                 ViewResources.Bullet.Bounds.Center.ToVector2(), SpriteEffects.None, 0f);
-            
+
             // _spriteBatch.DrawBox(bullet.Rectangle, Color.Blue);
         }
     }

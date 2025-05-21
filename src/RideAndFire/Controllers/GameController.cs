@@ -8,33 +8,31 @@ using RideAndFire.Views;
 
 namespace RideAndFire.Controllers;
 
-public abstract class Controller
-{
-    public abstract void OnUpdate(GameTime gameTime);
-    public abstract void OnDraw();
-}
-
-public class GameController : Controller
+public class GameController
 {
     private readonly GameView _view;
     private readonly GameModel _model;
-    private readonly InputController _inputController;
     private readonly ShootingController _shootingController;
     private readonly CollisionController _collisionController;
 
+    private InputController _inputController;
+    
     public GameController(GameView view, GameModel model)
     {
         _view = view;
         _model = model;
-        InitializeModels();
-        
-        _inputController = new InputController(_model.Player);
         _shootingController = new ShootingController();
         _collisionController = new CollisionController();
     }
 
-    public override void OnUpdate(GameTime gameTime)
+    public void Initialize()
     {
+        InitializeMap();
+        InitializePlayer();
+    }
+
+    public void OnUpdate(GameTime gameTime)
+    { 
         _inputController.OnUpdate(gameTime);
         
         if (_model.Player.IsShooting)
@@ -48,12 +46,12 @@ public class GameController : Controller
         _model.Update(gameTime);
     }
 
-    public override void OnDraw()
+    public void OnDraw()
     {
         _view.Draw();
     }
-
-    private void InitializeModels()
+    
+    private void InitializeMap()
     {
         _model.Map = new TileModel[Constants.MapWidth, Constants.MapHeight];
 
@@ -64,10 +62,13 @@ public class GameController : Controller
                 _model.Map[x, y] = new TileModel { Type = TileType.Sand, X = x, Y = y };
             }
         }
-
-        var mapCenter = new Vector2(Constants.MapWidth / 2f * Constants.TileSize,
-            Constants.MapHeight / 2f * Constants.TileSize);
+    }
+    
+    private void InitializePlayer()
+    {
+        var mapCenter = Constants.MapBounds.Center - ViewResources.Tank.Bounds.Center;
+        _model.Player = new PlayerModel(mapCenter.ToVector2());
         
-        _model.Player = new PlayerModel(mapCenter);
+        _inputController = new InputController(_model.Player);
     }
 }
