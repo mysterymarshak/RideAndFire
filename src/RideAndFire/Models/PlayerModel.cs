@@ -29,5 +29,7 @@ public class PlayerModel : ShooterModel
         Velocity = Vector2.Zero;
         AngularVelocity = 0f;
         IsShooting = false;
+        
+        base.Update(gameTime);
     }
 }
