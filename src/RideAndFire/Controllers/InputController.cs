@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using RideAndFire.Extensions;
 using RideAndFire.Models;
 
 namespace RideAndFire.Controllers;
@@ -22,10 +23,9 @@ public class InputController
     
     private void HandleMovement(GameTime gameTime)
     {
-        var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        
         var rotation = 0f;
         var velocity = Vector2.Zero;
+        var deltaTime = gameTime.AsDeltaTime();
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
