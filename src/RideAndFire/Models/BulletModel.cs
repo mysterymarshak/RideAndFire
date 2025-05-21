@@ -23,6 +23,5 @@ public class BulletModel : EntityModel
         Position += _constantVelocity * gameTime.AsDeltaTime();
     }
 
-    public bool IsOutOfScreenBounds() =>
-        Position.X is < 0 or > Constants.ScreenWidth || Position.Y is < 0 or > Constants.ScreenHeight;
+    public bool IsOutOfScreenBounds() => !Constants.MapBounds.Contains(Position);
 }
