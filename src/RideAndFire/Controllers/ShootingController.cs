@@ -10,7 +10,7 @@ public class ShootingController
     {
         var rotation = shooter.Rotation;
         var transformMatrix = Matrix.CreateRotationZ(rotation);
-        var velocity = Vector2.Transform(new Vector2(0, -1) * 5f, transformMatrix);
+        var velocity = Vector2.Transform(new Vector2(0, -1) * Constants.BulletSpeed, transformMatrix);
         
         shooter.Shoot();
         return new BulletModel(

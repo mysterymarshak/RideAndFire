@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using RideAndFire.Extensions;
 
 namespace RideAndFire.Models;
 
@@ -19,7 +20,7 @@ public class BulletModel : EntityModel
 
     public override void Update(GameTime gameTime)
     {
-        Position += _constantVelocity;
+        Position += _constantVelocity * gameTime.AsDeltaTime();
     }
 
     public bool IsOutOfScreenBounds() =>

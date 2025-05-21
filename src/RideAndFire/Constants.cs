@@ -13,6 +13,7 @@ public static class Constants
     public const int MapHeight = ScreenHeight / 64;
     
     public const float PlayerSpeed = 500f;
+    public const float BulletSpeed = 1000f;
     public const float ReversePlayerSpeed = 400f;
     public const float RotationSpeedInRadians = 3f;
 }
