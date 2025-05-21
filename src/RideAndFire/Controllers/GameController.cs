@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
 using RideAndFire.Models;
 using RideAndFire.Views;
 
@@ -16,7 +12,7 @@ public class GameController
     private readonly CollisionController _collisionController;
 
     private InputController _inputController;
-    
+
     public GameController(GameView view, GameModel model)
     {
         _view = view;
@@ -32,17 +28,17 @@ public class GameController
     }
 
     public void OnUpdate(GameTime gameTime)
-    { 
+    {
         _inputController.OnUpdate(gameTime);
-        
+
         if (_model.Player.IsShooting)
         {
             var bulletModel = _shootingController.Shoot(_model.Player, ViewResources.TankMuzzleEndOffset);
             _model.AddBullet(bulletModel);
         }
-        
+
         _collisionController.CheckScreenBoundsCollision(_model.Player);
-        
+
         _model.Update(gameTime);
     }
 
@@ -50,7 +46,7 @@ public class GameController
     {
         _view.Draw();
     }
-    
+
     private void InitializeMap()
     {
         _model.Map = new TileModel[Constants.MapWidth, Constants.MapHeight];
@@ -63,12 +59,12 @@ public class GameController
             }
         }
     }
-    
+
     private void InitializePlayer()
     {
         var mapCenter = Constants.MapBounds.Center - ViewResources.Tank.Bounds.Center;
         _model.Player = new PlayerModel(mapCenter.ToVector2());
-        
+
         _inputController = new InputController(_model.Player);
     }
 }

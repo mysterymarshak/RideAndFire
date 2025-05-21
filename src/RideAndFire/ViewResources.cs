@@ -13,7 +13,7 @@ public static class ViewResources
     public static Vector2 TankMuzzleOffset => new(TankMuzzle.Height / 2f);
     public static Vector2 TankMuzzleEndOffset => new(TankMuzzle.Height + 7f);
     public static Texture2D Bullet { get; private set; } = null!;
-    
+
     public static void LoadContent(ContentManager contentManager)
     {
         SandTile = contentManager.Load<Texture2D>("Sprites/Tiles/sand");

@@ -9,7 +9,7 @@ public static class Constants
 
     public static readonly Rectangle MapBounds =
         new(ScreenOffset.ToPoint(), (new Vector2(MapWidth, MapHeight) * TileSize).ToPoint());
-    
+
     public const int ScreenWidth = 1920;
     public const int ScreenHeight = 1080;
     public const int TileSize = 64;

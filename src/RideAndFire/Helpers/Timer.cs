@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 
 namespace RideAndFire.Helpers;
@@ -9,7 +6,7 @@ namespace RideAndFire.Helpers;
 public class Timer
 {
     public bool IsRunning { get; private set; }
-    
+
     private TimeSpan _elapsed;
     private TimeSpan _duration;
     private Action? _callback;
@@ -26,7 +23,7 @@ public class Timer
     {
         if (!IsRunning)
             return;
-        
+
         _elapsed += gameTime.ElapsedGameTime;
 
         if (_elapsed >= _duration)

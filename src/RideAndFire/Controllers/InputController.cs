@@ -9,18 +9,18 @@ namespace RideAndFire.Controllers;
 public class InputController
 {
     private readonly PlayerModel _player;
-    
+
     public InputController(PlayerModel player)
     {
         _player = player;
     }
-    
+
     public void OnUpdate(GameTime gameTime)
     {
         HandleMovement(gameTime);
         HandleShooting();
     }
-    
+
     private void HandleMovement(GameTime gameTime)
     {
         var rotation = 0f;
@@ -51,7 +51,7 @@ public class InputController
         _player.Velocity = velocity;
         _player.AngularVelocity = rotation;
     }
-    
+
     private void HandleShooting()
     {
         if (Keyboard.GetState().IsKeyDown(Keys.Space) && _player.CanShoot)

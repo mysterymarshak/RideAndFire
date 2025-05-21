@@ -40,7 +40,7 @@ public class GameView : View
                 var tile = _model.Map[x, y];
                 var bounds = tile.Bounds;
                 bounds.Offset(Constants.ScreenOffset);
-                
+
                 _spriteBatch.Draw(ViewResources.SandTile, bounds, Color.White);
                 //_spriteBatch.DrawBox(bounds, Color.Red, thickness: 1f);
                 // _spriteBatch.DrawString(Textures.BasicFont, $"[{x},{y}]", tile.Bounds.Center.ToVector2(), Color.Black);

@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RideAndFire.Controllers;
-using RideAndFire.Helpers;
 using RideAndFire.Models;
 using RideAndFire.Views;
 
@@ -38,7 +37,7 @@ public class Game : Microsoft.Xna.Framework.Game
         Content.RootDirectory = "Content";
 
         IsMouseVisible = true;
-        
+
         base.Initialize();
     }
 

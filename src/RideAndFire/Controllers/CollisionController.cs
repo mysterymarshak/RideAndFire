@@ -9,7 +9,7 @@ public class CollisionController
     {
         var (x, y, width, height) = Constants.MapBounds;
         var newPosition = player.Position + player.Velocity;
-        
+
         if (newPosition.X < x + Constants.TileSize || newPosition.X > x + width - Constants.TileSize)
         {
             player.Velocity = new Vector2(0, player.Velocity.Y);
