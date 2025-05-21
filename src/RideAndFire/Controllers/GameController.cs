@@ -45,7 +45,7 @@ public class GameController : Controller
         
         _collisionController.CheckScreenBoundsCollision(_model.Player);
         
-        _model.Update();
+        _model.Update(gameTime);
     }
 
     public override void OnDraw()

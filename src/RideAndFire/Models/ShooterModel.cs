@@ -14,6 +14,11 @@ public abstract class ShooterModel : EntityModel, IShooter
 
     private readonly Timer _cooldownTimer = new();
 
+    public override void Update(GameTime gameTime)
+    {
+        _cooldownTimer.Update(gameTime);
+    }
+
     public void Shoot()
     {
         _cooldownTimer.Start(ShootingDelay);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace RideAndFire.Models;
 
@@ -10,10 +11,10 @@ public class GameModel : Model
     
     private readonly List<BulletModel> _bullets = [];
     
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
-        Player.Update();
-        UpdateBullets();
+        Player.Update(gameTime);
+        UpdateBullets(gameTime);
     }
 
     public void AddBullet(BulletModel bullet)
@@ -21,12 +22,14 @@ public class GameModel : Model
         _bullets.Add(bullet);
     }
     
-    private void UpdateBullets()
+    private void UpdateBullets(GameTime gameTime)
     {
-        _bullets.ForEach(x => x.Update());
-
         for (var i = _bullets.Count - 1; i >= 0; i--)
         {
+            var bullet = _bullets[i];
+            
+            bullet.Update(gameTime);
+            
             if (_bullets[i].IsOutOfScreenBounds())
             {
                 _bullets.RemoveAt(i);

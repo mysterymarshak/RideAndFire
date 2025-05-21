@@ -56,8 +56,6 @@ public class Game : Microsoft.Xna.Framework.Game
         {
             Exit();
         }
-
-        Timer.TriggerUpdates(gameTime);
         
         _controller.OnUpdate(gameTime);
 

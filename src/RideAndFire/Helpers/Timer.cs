@@ -10,24 +10,9 @@ public class Timer
 {
     public bool IsRunning { get; private set; }
     
-    private static readonly ConditionalWeakTable<Timer, Dummy?> Timers = [];
-
     private TimeSpan _elapsed;
     private TimeSpan _duration;
     private Action? _callback;
-    
-    public Timer()
-    {
-        Timers.Add(this, null);
-    }
-    
-    public static void TriggerUpdates(GameTime gameTime)
-    {
-        foreach (var (timer, _) in Timers)
-        {
-            timer.Update(gameTime);
-        }
-    }
 
     public void Start(TimeSpan duration, Action? callback = null)
     {
@@ -37,7 +22,7 @@ public class Timer
         IsRunning = true;
     }
 
-    private void Update(GameTime gameTime)
+    public void Update(GameTime gameTime)
     {
         if (!IsRunning)
             return;
@@ -51,5 +36,3 @@ public class Timer
         }
     }
 }
-
-public abstract record Dummy;

@@ -17,7 +17,7 @@ public class BulletModel : EntityModel
         _constantVelocity = constantVelocity;
     }
 
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
         Position += _constantVelocity;
     }

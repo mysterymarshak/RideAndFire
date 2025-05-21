@@ -21,7 +21,7 @@ public class PlayerModel : ShooterModel
         Position = initialPosition;
     }
 
-    public override void Update()
+    public override void Update(GameTime gameTime)
     {
         Position += Velocity;
         Rotation += AngularVelocity;
