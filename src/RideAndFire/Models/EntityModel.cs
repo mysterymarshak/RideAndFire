@@ -42,7 +42,7 @@ public abstract class EntityModel : Model, IDamageable
 
     public virtual void OnDamage(float damage)
     {
-        if (IsDead)
+        if (IsDead || !IsActive)
             return;
 
         Health = Math.Clamp(Health - damage, 0, Health);
