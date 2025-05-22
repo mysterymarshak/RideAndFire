@@ -98,7 +98,7 @@ public class GameView : View
                 maskColor, angle,
                 ViewResources.Turret.Bounds.Center.ToVector2(), SpriteEffects.None, 0f);
 
-            if (!turret.IsDead)
+            if (turret is { IsActive: true, IsDead: false })
             {
                 _spriteBatch.DrawBox(turret.Rectangle, Color.Blue);
                 SpriteBatchExtensions.DrawLine(_spriteBatch, turret.Position,
