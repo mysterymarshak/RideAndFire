@@ -9,7 +9,7 @@ public abstract class EntityModel : Model, IDamageable
         new(new Point((int)(Position.X - Size.X / 2f), (int)(Position.Y - Size.Y / 2f)), Size);
 
     public abstract Point Size { get; }
-    public bool IsActive { get; set; }
+    public virtual bool IsActive { get; set; }
     public bool IsDead { get; protected set; }
 
     public virtual float MaxHealth { get; protected set; }

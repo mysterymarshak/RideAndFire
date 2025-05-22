@@ -5,6 +5,7 @@ namespace RideAndFire.Models;
 
 public class PlayerModel : ShooterModel
 {
+    public override bool IsActive { get; set; } = true;
     public override Point Size => new(64, 64);
     public override float MaxHealth { get; protected set; } = 20;
     public override float Health { get; protected set; } = 20;

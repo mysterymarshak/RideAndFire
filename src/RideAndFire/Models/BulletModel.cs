@@ -4,6 +4,7 @@ namespace RideAndFire.Models;
 
 public class BulletModel : EntityModel
 {
+    public override bool IsActive { get; set; } = true;
     public override Point Size => new(16, 16);
     public IShooter Shooter { get; }
     public Vector2 Direction { get; }
