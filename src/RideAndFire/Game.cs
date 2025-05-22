@@ -49,7 +49,7 @@ public class Game : Microsoft.Xna.Framework.Game
     protected override void BeginRun()
     {
         var model = new GameModel();
-        var view = new GameView(model, _spriteBatch, _graphics);
+        var view = new GameView(model, _spriteBatch);
         _gameController = new GameController(view, model);
         _gameController.Initialize();
     }

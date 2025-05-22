@@ -1,27 +1,33 @@
 ﻿using Microsoft.Xna.Framework;
-using RideAndFire.Extensions;
 
 namespace RideAndFire.Models;
 
 public class BulletModel : EntityModel
 {
-    public override Vector2 Size => new(16, 16);
-    public sealed override Vector2 Position { get; protected set; }
-    public sealed override float Rotation { get; protected set; }
+    public override Point Size => new(16, 16);
+    public IShooter Shooter { get; }
+    public Vector2 Direction { get; }
+    public bool MarkedForRemoval { get; private set; }
 
-    private readonly Vector2 _constantVelocity;
-
-    public BulletModel(Vector2 initialPosition, float rotation, Vector2 constantVelocity)
+    public BulletModel(IShooter shooter, Vector2 initialPosition, float rotation, Vector2 direction)
     {
+        Shooter = shooter;
         Position = initialPosition;
         Rotation = rotation;
-        _constantVelocity = constantVelocity;
+        Direction = direction;
     }
 
     public override void Update(GameTime gameTime)
     {
-        Position += _constantVelocity * gameTime.AsDeltaTime();
+        Position += Velocity;
+
+        Velocity = Vector2.Zero;
     }
 
     public bool IsOutOfScreenBounds() => !Constants.MapBounds.Contains(Position);
+
+    public void MarkForRemoval()
+    {
+        MarkedForRemoval = true;
+    }
 }

@@ -6,11 +6,11 @@ namespace RideAndFire.Models;
 
 public abstract class ShooterModel : EntityModel, IShooter
 {
-    public abstract bool IsShooting { get; set; }
+    public virtual bool CanShoot => !IsTimerRunning;
+    public bool IsShooting { get; set; }
 
-    public bool CanShoot => !_cooldownTimer.IsRunning;
-
-    protected abstract TimeSpan ShootingDelay { get; }
+    protected abstract TimeSpan ShootingCooldown { get; }
+    protected bool IsTimerRunning => _cooldownTimer.IsRunning;
 
     private readonly Timer _cooldownTimer = new();
 
@@ -21,6 +21,11 @@ public abstract class ShooterModel : EntityModel, IShooter
 
     public void Shoot()
     {
-        _cooldownTimer.Start(ShootingDelay);
+        if (!CanShoot)
+        {
+            throw new InvalidOperationException("you cant shoot");
+        }
+
+        _cooldownTimer.Start(ShootingCooldown);
     }
 }

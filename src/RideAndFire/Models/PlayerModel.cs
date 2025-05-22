@@ -5,15 +5,12 @@ namespace RideAndFire.Models;
 
 public class PlayerModel : ShooterModel
 {
-    public override Vector2 Size => new(64, 64);
-    public sealed override Vector2 Position { get; protected set; }
-    public override float Rotation { get; protected set; }
-
-    public Vector2 Velocity { get; set; }
+    public override Point Size => new(64, 64);
+    public override float MaxHealth { get; protected set; } = 20;
+    public override float Health { get; protected set; } = 20;
     public float AngularVelocity { get; set; }
-    public override bool IsShooting { get; set; }
 
-    protected override TimeSpan ShootingDelay => TimeSpan.FromMilliseconds(1500);
+    protected override TimeSpan ShootingCooldown => TimeSpan.FromMilliseconds(1500);
 
     public PlayerModel(Vector2 initialPosition)
     {
@@ -30,5 +27,15 @@ public class PlayerModel : ShooterModel
         IsShooting = false;
 
         base.Update(gameTime);
+    }
+
+    public override void OnDamage(float damage)
+    {
+        base.OnDamage(damage);
+
+        if (IsDead)
+        {
+            Console.WriteLine("player is dead");
+        }
     }
 }

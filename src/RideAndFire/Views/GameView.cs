@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using RideAndFire.Extensions;
 using RideAndFire.Models;
 
@@ -15,19 +16,18 @@ public class GameView : View
 {
     private readonly GameModel _model;
     private readonly SpriteBatch _spriteBatch;
-    private readonly GraphicsDeviceManager _graphics;
 
-    public GameView(GameModel model, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+    public GameView(GameModel model, SpriteBatch spriteBatch)
     {
         _model = model;
         _spriteBatch = spriteBatch;
-        _graphics = graphics;
     }
 
     public override void Draw()
     {
         DrawMap();
         DrawPlayer();
+        DrawTurrets();
         DrawBullets();
     }
 
@@ -41,39 +41,90 @@ public class GameView : View
                 var bounds = tile.Bounds;
                 bounds.Offset(Constants.ScreenOffset);
 
-                _spriteBatch.Draw(ViewResources.SandTile, bounds, Color.White);
-                //_spriteBatch.DrawBox(bounds, Color.Red, thickness: 1f);
+                _spriteBatch.Draw(GetTileTexture(tile.Type), bounds, Color.White);
+                // _spriteBatch.DrawBox(bounds, Color.Red, thickness: 1f);
                 // _spriteBatch.DrawString(Textures.BasicFont, $"[{x},{y}]", tile.Bounds.Center.ToVector2(), Color.Black);
             }
         }
+
+        static Texture2D GetTileTexture(TileType type) => type switch
+        {
+            TileType.Dirt => ViewResources.DirtTile,
+            TileType.Sand => ViewResources.SandTile,
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, string.Empty)
+        };
     }
 
     private void DrawPlayer()
     {
-        var angle = _model.Player.Rotation;
+        var player = _model.Player;
+        var angle = player.Rotation;
 
         _spriteBatch.Draw(ViewResources.Tank,
-            new Rectangle(_model.Player.Position.ToPoint(), _model.Player.Size.ToPoint()),
+            new Rectangle(player.Position.ToPoint(), player.Size),
             null, Color.White, angle, ViewResources.Tank.Bounds.Center.ToVector2(),
             SpriteEffects.None, 0f);
 
         _spriteBatch.Draw(ViewResources.TankMuzzle,
-            _model.Player.Position + new Vector2(ViewResources.TankMuzzleOffset.X * MathF.Sin(angle),
+            player.Position + new Vector2(ViewResources.TankMuzzleOffset.X * MathF.Sin(angle),
                 -ViewResources.TankMuzzleOffset.Y * MathF.Cos(angle)), null, Color.White,
             angle, ViewResources.TankMuzzle.Bounds.Center.ToVector2(), Vector2.One, SpriteEffects.None, 0);
 
-        _spriteBatch.DrawBox(_model.Player.Rectangle, Color.Blue);
+        _spriteBatch.DrawBox(player.Rectangle, Color.Blue);
+        _spriteBatch.DrawRectangle(
+            new Rectangle(player.Rectangle.Location + new Point(0, -40), new Size(player.Rectangle.Width, 10)),
+            Color.Gray);
+        _spriteBatch.FillRectangle(
+            new RectangleF(player.Rectangle.Location.ToVector2() + new Vector2(1, -39),
+                new SizeF((player.Rectangle.Width - 1) * (player.Health / player.MaxHealth), 9)), Color.Green);
+
+        // todo: extract & improve
+    }
+
+    private void DrawTurrets()
+    {
+        foreach (var turret in _model.Turrets)
+        {
+            var angle = turret.Rotation;
+            var maskColor = turret.IsDead ? Color.LightSlateGray : Color.White;
+
+            _spriteBatch.Draw(ViewResources.TurretBase, new Rectangle(turret.Position.ToPoint(), turret.Size),
+                null, maskColor, 0f, ViewResources.TurretBase.Bounds.Center.ToVector2(),
+                SpriteEffects.None, 0f);
+
+            _spriteBatch.Draw(ViewResources.Turret, new Rectangle(turret.Position.ToPoint() + new Vector2(
+                    ViewResources.TurretOffset.X * MathF.Sin(angle),
+                    -ViewResources.TurretOffset.Y * MathF.Cos(angle)).ToPoint(), turret.Size), null,
+                maskColor, angle,
+                ViewResources.Turret.Bounds.Center.ToVector2(), SpriteEffects.None, 0f);
+
+            if (!turret.IsDead)
+            {
+                _spriteBatch.DrawBox(turret.Rectangle, Color.Blue);
+                SpriteBatchExtensions.DrawLine(_spriteBatch, turret.Position,
+                    turret.Position +
+                    Vector2.TransformNormal(new Vector2(0, -1000), Matrix.CreateRotationZ(turret.Rotation)),
+                    Color.Red);
+                _spriteBatch.DrawBox(
+                    new Rectangle(
+                        (turret.Position + new Vector2(ViewResources.TurretMuzzleEndOffset.X * MathF.Sin(angle),
+                            -ViewResources.TurretMuzzleEndOffset.Y * MathF.Cos(angle))).ToPoint(), new Point(8, 8)),
+                    Color.Brown);
+            }
+
+            // todo: extract & improve
+        }
     }
 
     private void DrawBullets()
     {
         foreach (var bullet in _model.Bullets)
         {
-            _spriteBatch.Draw(ViewResources.Bullet, new Rectangle(bullet.Position.ToPoint(), bullet.Size.ToPoint()),
+            _spriteBatch.Draw(ViewResources.Bullet, new Rectangle(bullet.Position.ToPoint(), bullet.Size),
                 null, Color.White, bullet.Rotation,
                 ViewResources.Bullet.Bounds.Center.ToVector2(), SpriteEffects.None, 0f);
 
-            // _spriteBatch.DrawBox(bullet.Rectangle, Color.Blue);
+            _spriteBatch.DrawBox(bullet.Rectangle, Color.Green);
         }
     }
 }
