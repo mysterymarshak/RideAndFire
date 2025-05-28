@@ -80,6 +80,30 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Tiles/sand.png
 
+#begin Sprites/Tiles/towerDefense_tile034.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Tiles/towerDefense_tile034.png;Sprites/Tiles/turretTile.png
+
+#begin Sprites/Tiles/towerDefense_tile084.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Tiles/towerDefense_tile084.png;Sprites/Tiles/wall.png
+
 #begin Sprites/Turrets/towerDefense_tile180.png
 /importer:TextureImporter
 /processor:TextureProcessor

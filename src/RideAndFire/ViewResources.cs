@@ -8,6 +8,8 @@ public static class ViewResources
 {
     public static Texture2D DirtTile { get; private set; } = null!;
     public static Texture2D SandTile { get; private set; } = null!;
+    public static Texture2D WallTile { get; private set; } = null!;
+    public static Texture2D TurretTile { get; private set; } = null!;
     public static SpriteFont BasicFont { get; private set; } = null!;
     public static Texture2D Tank { get; private set; } = null!;
     public static Texture2D TankMuzzle { get; private set; } = null!;
@@ -23,6 +25,8 @@ public static class ViewResources
     {
         DirtTile = contentManager.Load<Texture2D>("Sprites/Tiles/dirt");
         SandTile = contentManager.Load<Texture2D>("Sprites/Tiles/sand");
+        WallTile = contentManager.Load<Texture2D>("Sprites/Tiles/wall");
+        TurretTile = contentManager.Load<Texture2D>("Sprites/Tiles/turretTile");
         BasicFont = contentManager.Load<SpriteFont>("Fonts/basicFont");
         Tank = contentManager.Load<Texture2D>("Sprites/Tanks/tank");
         TankMuzzle = contentManager.Load<Texture2D>("Sprites/Tanks/tankMuzzle");

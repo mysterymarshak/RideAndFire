@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RideAndFire.Extensions;
 using RideAndFire.Models;
 
 namespace RideAndFire.Views;
@@ -33,6 +34,8 @@ public class MapView : View
     {
         TileType.Dirt => ViewResources.DirtTile,
         TileType.Sand => ViewResources.SandTile,
+        TileType.Wall => ViewResources.WallTile,
+        TileType.Turret => ViewResources.TurretTile,
         _ => throw new ArgumentOutOfRangeException(nameof(type), type, string.Empty)
     };
 }
