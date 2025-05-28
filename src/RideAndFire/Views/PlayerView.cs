@@ -28,7 +28,8 @@ public class PlayerView : View
         SpriteBatch.Draw(ViewResources.TankMuzzle,
             Player.Position + new Vector2(ViewResources.TankMuzzleOffset.X * MathF.Sin(angle),
                 -ViewResources.TankMuzzleOffset.Y * MathF.Cos(angle)), null, Color.White, angle,
-            ViewResources.TankMuzzle.Bounds.Center.ToVector2(), Vector2.One, SpriteEffects.None, 0);
+            ViewResources.TankMuzzle.Bounds.Center.ToVector2(), Vector2.One * (Player.Size.X / 64f), SpriteEffects.None, 0);
+        // todo: improve
         
         _healthBar.Draw();
     }
