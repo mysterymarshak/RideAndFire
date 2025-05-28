@@ -27,7 +27,7 @@ public static class Constants
 
     public const float MaxTurretRotationSpeedInRadians = 2f;
 
-    public const float BulletSpeed = 1000f;
+    public const float BulletSpeed = 800f;
     public const float BulletDamage = 10f;
     
     public static readonly Point PlayerHealthBarOffset = new(0, -40);
