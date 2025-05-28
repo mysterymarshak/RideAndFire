@@ -29,4 +29,7 @@ public static class Constants
 
     public const float BulletSpeed = 1000f;
     public const float BulletDamage = 10f;
+    
+    public static readonly Point PlayerHealthBarOffset = new(0, -40);
+    public static readonly Point TurretHealthBarOffset = new(0, -5);
 }

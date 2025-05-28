@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RideAndFire.Extensions;
 using RideAndFire.Models;
+using RideAndFire.Views.Components;
 
 namespace RideAndFire.Views;
 
@@ -16,7 +17,7 @@ public class DebugTurretView : TurretView
     {
         base.Draw();
 
-        if (Turret is not { IsActive: true, IsDead: false })
+        if (!Turret.IsActive)
             return;
 
         var angle = Turret.Rotation;

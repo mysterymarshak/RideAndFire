@@ -8,8 +8,8 @@ public class TurretModel : ShooterModel
 {
     public override Point Size => new(96, 96);
     public override bool CanShoot => IsActive && !IsTimerRunning && IsFocusedOnTarget;
-    public override float MaxHealth { get; protected set; } = 10;
-    public override float Health { get; protected set; } = 10;
+    public override float MaxHealth { get; protected set; } = 20;
+    public override float Health { get; protected set; } = 20;
     public float AngularVelocity { get; set; }
     public bool IsFocusedOnTarget { get; set; }
 
@@ -37,6 +37,7 @@ public class TurretModel : ShooterModel
 
         if (IsDead)
         {
+            IsActive = false;
             Console.WriteLine("turret is dead");
         }
     }
