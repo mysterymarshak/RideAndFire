@@ -7,6 +7,9 @@ namespace RideAndFire.Controllers;
 
 public class ShootingController
 {
+    public event Action<BulletModel>? BulletCreated;
+    public event Action<BulletModel>? BulletRemoved;
+
     private readonly GameModel _gameModel;
 
     public ShootingController(GameModel gameModel)
@@ -17,12 +20,11 @@ public class ShootingController
     public void HandleBulletsMovement(GameTime gameTime)
     {
         var bullets = _gameModel.Bullets;
-
         foreach (var bullet in bullets)
         {
             if (bullet.IsOutOfScreenBounds())
             {
-                bullet.MarkForRemoval();
+                RemoveBullet(bullet);
                 continue;
             }
 
@@ -41,16 +43,29 @@ public class ShootingController
         var bullet = new BulletModel(shooter,
             shooter.Position + new Vector2(muzzleOffset.X * MathF.Sin(rotation), -muzzleOffset.Y * MathF.Cos(rotation)),
             rotation, velocity);
-        _gameModel.AddBullet(bullet);
+
+        CreateBullet(bullet);
     }
 
     public void OnBulletHit(BulletModel bullet, IDamageable target)
     {
-        bullet.MarkForRemoval();
+        RemoveBullet(bullet);
 
         if (target.GetType() == bullet.Shooter.GetType())
             return;
 
         target.OnDamage(Constants.BulletDamage);
+    }
+
+    private void CreateBullet(BulletModel bullet)
+    {
+        _gameModel.AddBullet(bullet);
+        BulletCreated?.Invoke(bullet);
+    }
+
+    private void RemoveBullet(BulletModel bullet)
+    {
+        bullet.MarkForRemoval();
+        BulletRemoved?.Invoke(bullet);
     }
 }

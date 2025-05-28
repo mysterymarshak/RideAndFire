@@ -6,7 +6,7 @@ namespace RideAndFire.Controllers;
 
 public class CollisionController
 {
-    public event Action<BulletModel, IDamageable>? OnBulletHit;
+    public event Action<BulletModel, IDamageable>? BulletHit;
 
     private readonly GameModel _gameModel;
 
@@ -89,7 +89,7 @@ public class CollisionController
                 if (!collidedWithTurret)
                     continue;
 
-                OnBulletHit?.Invoke(bullet, turret);
+                BulletHit?.Invoke(bullet, turret);
                 bulletHandled = true;
                 break;
             }
@@ -101,7 +101,7 @@ public class CollisionController
             if (!collidedWithPlayer)
                 continue;
 
-            OnBulletHit?.Invoke(bullet, player);
+            BulletHit?.Invoke(bullet, player);
         }
     }
 

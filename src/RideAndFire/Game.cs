@@ -51,7 +51,9 @@ public class Game : Microsoft.Xna.Framework.Game
         var model = new GameModel();
         var view = new GameView(model, _spriteBatch);
         _gameController = new GameController(view, model);
+
         _gameController.Initialize();
+        view.Initialize();
     }
 
     protected override void Update(GameTime gameTime)

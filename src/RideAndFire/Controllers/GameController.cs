@@ -31,7 +31,9 @@ public class GameController
         InitializePlayer();
         InitializeTurrets();
 
-        _collisionController.OnBulletHit += _shootingController.OnBulletHit;
+        _collisionController.BulletHit += _shootingController.OnBulletHit;
+        _shootingController.BulletCreated += _view.AddBullet;
+        _shootingController.BulletRemoved += _view.RemoveBullet;
     }
 
     public void OnUpdate(GameTime gameTime)
