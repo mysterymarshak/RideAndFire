@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RideAndFire.Extensions;
 using RideAndFire.Models;
 
 namespace RideAndFire.Views;
@@ -40,6 +42,7 @@ public class GameView : View
 
     public override void Draw()
     {
+        SpriteBatch.GraphicsDevice.Clear(Color.BlanchedAlmond);
         _mapView.Draw();
         _playerView.Draw();
         _turretViews.ForEach(x => x.Draw());
