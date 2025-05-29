@@ -1,3 +1,10 @@
-﻿namespace RideAndFire.Configuration;
+﻿using System.Text.Json.Serialization;
+using RideAndFire.Helpers;
 
-public record ConfigurationData(double BestScore);
+namespace RideAndFire.Configuration;
+
+public record ConfigurationData
+{
+    [JsonConverter(typeof(DoubleConverter))]
+    public required double BestScore { get; init; }
+}

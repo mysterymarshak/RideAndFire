@@ -39,7 +39,8 @@ public class GameOverOverlayView : OverlayView
 
         if (!isRecordBroken)
         {
-            var bestScoreMessage = string.Format(CultureInfo.InvariantCulture, "Your best score: {0:0.0}", bestScore);
+            var bestScoreMessage = string.Format(CultureInfo.InvariantCulture, "Your best score: {0:0.0}",
+                double.IsNaN(bestScore) ? 0d : bestScore);
             var bestScoreMessageSize = ViewResources.ComicSansFont.MeasureString(bestScoreMessage);
             SpriteBatch.DrawString(ViewResources.ComicSansFont, bestScoreMessage,
                 Constants.ScreenCenter - (bestScoreMessageSize / 2) - screenQuarter +

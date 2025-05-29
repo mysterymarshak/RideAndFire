@@ -35,7 +35,7 @@ public class ScoreModel : Model
         if (isPlayerDead)
             return;
 
-        if (Score < BestScore)
+        if (double.IsNaN(BestScore) || Score < BestScore)
         {
             BestScore = Score;
             IsRecordBroken = true;
