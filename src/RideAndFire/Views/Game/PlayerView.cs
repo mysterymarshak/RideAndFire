@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RideAndFire.Models;
-using RideAndFire.Views.Components;
+using RideAndFire.Views.Game.Components;
 
-namespace RideAndFire.Views;
+namespace RideAndFire.Views.Game;
 
 public class PlayerView : View
 {

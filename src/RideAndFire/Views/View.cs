@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace RideAndFire.Views;
 
@@ -13,6 +14,10 @@ public abstract class View
 
     public abstract void Draw();
 
+    public virtual void DrawTimed(GameTime gameTime)
+    {
+    }
+    
     public virtual void Initialize()
     {
     }

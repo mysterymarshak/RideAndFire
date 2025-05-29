@@ -3,9 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RideAndFire.Extensions;
 using RideAndFire.Models;
-using RideAndFire.Views.Components;
 
-namespace RideAndFire.Views;
+namespace RideAndFire.Views.Game;
 
 public class DebugTurretView : TurretView
 {

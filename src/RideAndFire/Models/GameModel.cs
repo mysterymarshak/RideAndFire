@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace RideAndFire.Models;
 
 public class GameModel : Model
 {
+    public TimeSpan StartDelayLeft { get; set; } = Constants.StartDelay;
     public TileModel[,] Map { get; set; }
     public PlayerModel Player { get; set; }
     public IEnumerable<BulletModel> Bullets => _bullets;
@@ -15,6 +17,7 @@ public class GameModel : Model
 
     public override void Update(GameTime gameTime)
     {
+        StartDelayLeft = TimeSpan.FromSeconds(Math.Clamp((StartDelayLeft - gameTime.ElapsedGameTime).TotalSeconds, 0, Constants.StartDelay.TotalSeconds));
         Player.Update(gameTime);
         UpdateBullets(gameTime);
         UpdateTurrets(gameTime);

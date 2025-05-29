@@ -11,32 +11,20 @@ public class TurretsController
 {
     private readonly GameModel _gameModel;
     private readonly ShootingController _shootingController;
-    private readonly Timer _turretsStartTimer;
 
     public TurretsController(GameModel gameModel, ShootingController shootingController)
     {
         _gameModel = gameModel;
         _shootingController = shootingController;
-        _turretsStartTimer = new Timer();
     }
 
-    public void Initialize()
+    public void HandleTurretsBehaviour()
     {
-        _turretsStartTimer.Start(Constants.TurretsStartDelay, ActivateTurrets);
-    }
-
-    public void HandleTurretsBehaviour(GameTime gameTime)
-    {
-        _turretsStartTimer.Update(gameTime);
-
-        if (_turretsStartTimer.IsRunning)
-            return;
-
         HandleRotation();
         HandleShooting();
     }
 
-    private void ActivateTurrets()
+    public void ActivateTurrets()
     {
         foreach (var turret in _gameModel.Turrets)
         {
@@ -48,7 +36,7 @@ public class TurretsController
     {
         foreach (var turret in _gameModel.Turrets)
         {
-            if (turret.IsDead)
+            if (!turret.IsActive)
                 continue;
 
             var player = _gameModel.Player;

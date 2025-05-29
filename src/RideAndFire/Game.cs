@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Input;
 using RideAndFire.Controllers;
 using RideAndFire.Models;
 using RideAndFire.Views;
+using RideAndFire.Views.Game;
+using RideAndFire.Views.Menu;
 
 namespace RideAndFire;
 
@@ -14,7 +16,7 @@ public class Game : Microsoft.Xna.Framework.Game
     private readonly GraphicsDeviceManager _graphics;
     private readonly StringBuilder _titleBuilder;
 
-    private GameController _gameController;
+    private Controller _controller;
     private SpriteBatch _spriteBatch;
 
     public Game()
@@ -48,12 +50,7 @@ public class Game : Microsoft.Xna.Framework.Game
 
     protected override void BeginRun()
     {
-        var model = new GameModel();
-        var view = new GameView(model, _spriteBatch);
-        _gameController = new GameController(view, model);
-
-        _gameController.Initialize();
-        view.Initialize();
+        InitializeMenu();
     }
 
     protected override void Update(GameTime gameTime)
@@ -63,7 +60,7 @@ public class Game : Microsoft.Xna.Framework.Game
             Exit();
         }
 
-        _gameController.OnUpdate(gameTime);
+        _controller.OnUpdate(gameTime);
 
         UpdateWindowTitle(gameTime);
         base.Update(gameTime);
@@ -74,10 +71,39 @@ public class Game : Microsoft.Xna.Framework.Game
         GraphicsDevice.Clear(Color.Black);
 
         _spriteBatch.Begin();
-        _gameController.OnDraw();
+        _controller.OnDraw();
         _spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+    private void InitializeMenu()
+    {
+        var view = new MenuView(_spriteBatch);
+        var controller = new MenuController(view);
+
+        controller.GameStart += OnGameStart;
+        controller.Initialize();
+        view.Initialize();
+
+        _controller = controller;
+    }
+
+    private void OnGameStart()
+    {
+        ((MenuController)_controller).GameStart -= OnGameStart;
+
+        InitializeGame();
+    }
+
+    private void InitializeGame()
+    {
+        var model = new GameModel();
+        var view = new GameView(model, _spriteBatch);
+        _controller = new GameController(view, model);
+        
+        _controller.Initialize();
+        view.Initialize();
     }
 
     private void UpdateWindowTitle(GameTime gameTime)

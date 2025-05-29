@@ -11,7 +11,8 @@ public static class Constants
     public static readonly Rectangle MapBounds =
         new(ScreenOffset.ToPoint(), (new Vector2(MapWidth, MapHeight) * TileSize).ToPoint());
 
-    public static readonly TimeSpan TurretsStartDelay = TimeSpan.FromSeconds(2);
+    public static readonly TimeSpan StartDelay = TimeSpan.FromSeconds(3);
+    
     public static readonly TimeSpan TurretShootingCooldownMin = TimeSpan.FromSeconds(2);
     public static readonly TimeSpan TurretShootingCooldownMax = TimeSpan.FromSeconds(3);
 

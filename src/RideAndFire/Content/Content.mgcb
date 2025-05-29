@@ -13,12 +13,19 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/comicSans.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/comicSans.spritefont
+
 #begin Fonts/File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/File.spritefont;Fonts/basicFont.spritefont
+/build:Fonts/File.spritefont;Fonts/basic.spritefont
 
 #begin Sprites/Projectiles/bulletBeige_outline.png
 /importer:TextureImporter
@@ -127,4 +134,28 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Turrets/towerDefense_tile249.png;Sprites/Turrets/turret.png
+
+#begin UI/Buttons/button_rectangle_depth.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Buttons/button_rectangle_depth.png;UI/Buttons/buttonPressed.png
+
+#begin UI/Buttons/button_rectangle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/Buttons/button_rectangle.png;UI/Buttons/button.png
 

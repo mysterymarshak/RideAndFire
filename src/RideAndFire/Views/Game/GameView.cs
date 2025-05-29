@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using RideAndFire.Extensions;
+using MonoGame.Extended;
 using RideAndFire.Models;
 
-namespace RideAndFire.Views;
+namespace RideAndFire.Views.Game;
 
 public class GameView : View
 {
@@ -15,6 +17,7 @@ public class GameView : View
     private MapView _mapView;
     private List<TurretView> _turretViews;
     private List<BulletView> _bulletViews;
+    private StartOverlayView _startOverlayView;
 
     public GameView(GameModel model, SpriteBatch spriteBatch) : base(spriteBatch)
     {
@@ -38,15 +41,18 @@ public class GameView : View
 #endif
 
         _bulletViews = [];
+        _startOverlayView = new StartOverlayView(_model, SpriteBatch);
     }
 
     public override void Draw()
     {
         SpriteBatch.GraphicsDevice.Clear(Color.BlanchedAlmond);
+
         _mapView.Draw();
         _playerView.Draw();
         _turretViews.ForEach(x => x.Draw());
         _bulletViews.ForEach(x => x.Draw());
+        _startOverlayView.Draw();
     }
 
     public void AddBullet(BulletModel bullet)

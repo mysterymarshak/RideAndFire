@@ -25,7 +25,13 @@ public class BulletModel : EntityModel
         Velocity = Vector2.Zero;
     }
 
-    public bool IsOutOfScreenBounds() => !Constants.MapBounds.Contains(Position);
+    public bool IsOutOfScreenBounds()
+    {
+        var bounds = Constants.MapBounds;
+        bounds.Inflate(-Constants.TileSize, -Constants.TileSize);
+        return !bounds.Contains(Position);
+        // todo: imrpove
+    }
 
     public void MarkForRemoval()
     {

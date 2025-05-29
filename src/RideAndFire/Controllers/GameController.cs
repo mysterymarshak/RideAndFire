@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using RideAndFire.Helpers;
 using RideAndFire.Models;
 using RideAndFire.Views;
+using RideAndFire.Views.Game;
 
 namespace RideAndFire.Controllers;
 
-public class GameController
+public class GameController : Controller
 {
     private readonly GameView _view;
     private readonly GameModel _model;
+    private readonly Timer _startDelayTimer;
     private readonly ShootingController _shootingController;
     private readonly CollisionController _collisionController;
     private readonly TurretsController _turretsController;
@@ -20,12 +24,13 @@ public class GameController
     {
         _view = view;
         _model = model;
+        _startDelayTimer = new Timer();
         _shootingController = new ShootingController(_model);
         _collisionController = new CollisionController(_model);
         _turretsController = new TurretsController(_model, _shootingController);
     }
 
-    public void Initialize()
+    public override void Initialize()
     {
         InitializeMap();
         InitializePlayer();
@@ -34,14 +39,17 @@ public class GameController
         _collisionController.BulletHit += _shootingController.OnBulletHit;
         _shootingController.BulletCreated += _view.AddBullet;
         _shootingController.BulletRemoved += _view.RemoveBullet;
+        
+        _startDelayTimer.Start(Constants.StartDelay, OnStartDelayPassed);
     }
-
-    public void OnUpdate(GameTime gameTime)
+    
+    public override void OnUpdate(GameTime gameTime)
     {
+        _startDelayTimer.Update(gameTime);
         _inputController.OnUpdate(gameTime);
 
         HandlePlayerShooting();
-        _turretsController.HandleTurretsBehaviour(gameTime);
+        _turretsController.HandleTurretsBehaviour();
         _shootingController.HandleBulletsMovement(gameTime);
 
         _collisionController.CheckCollisions();
@@ -49,11 +57,17 @@ public class GameController
         _model.Update(gameTime);
     }
 
-    public void OnDraw()
+    public override void OnDraw()
     {
         _view.Draw();
     }
 
+    private void OnStartDelayPassed()
+    {
+        _model.Player.IsActive = true;
+        _turretsController.ActivateTurrets();
+    }
+    
     private void InitializeMap()
     {
         _model.Map = new TileModel[Constants.MapWidth, Constants.MapHeight];
@@ -63,7 +77,7 @@ public class GameController
             for (var y = 0; y < Constants.MapHeight; y++)
             {
                 var point = new Point(x, y);
-                var tileType = TileType.Sand;
+                var tileType = TileType.Dirt;
 
                 var dirtAreas = new List<Rectangle>
                 {
@@ -75,7 +89,20 @@ public class GameController
 
                 if (dirtAreas.Any(z => z.Contains(point)))
                 {
-                    tileType = TileType.Dirt;
+                    tileType = TileType.Turret;
+                }
+                
+                var wallAreas = new List<Rectangle>
+                {
+                    new(0, 0, Constants.MapWidth, 1),
+                    new(0, Constants.MapHeight - 1, Constants.MapWidth, 1),
+                    new(0, 0, 1, Constants.MapHeight),
+                    new(Constants.MapWidth - 1, 0, 1, Constants.MapHeight)
+                };
+                
+                if (wallAreas.Any(z => z.Contains(point)))
+                {
+                    tileType = TileType.Wall;
                 }
 
                 _model.Map[x, y] = new TileModel { Type = tileType, X = x, Y = y };
@@ -109,9 +136,7 @@ public class GameController
                                               Constants.ScreenOffset);
             _model.AddTurret(turretModel);
         }
-
-        _turretsController.Initialize();
-
+        
         // todo: extract & improve
     }
 

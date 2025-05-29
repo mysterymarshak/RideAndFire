@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using RideAndFire.Models;
 
-namespace RideAndFire.Views;
+namespace RideAndFire.Views.Game;
 
 public class BulletView : View
 {

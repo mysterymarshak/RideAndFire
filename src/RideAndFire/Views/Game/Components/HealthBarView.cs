@@ -4,7 +4,7 @@ using MonoGame.Extended;
 using RideAndFire.Extensions;
 using RideAndFire.Models;
 
-namespace RideAndFire.Views.Components;
+namespace RideAndFire.Views.Game.Components;
 
 public class HealthBarView : View
 {

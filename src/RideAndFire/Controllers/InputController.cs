@@ -17,9 +17,11 @@ public class InputController
 
     public void OnUpdate(GameTime gameTime)
     {
+        if (!_player.IsActive)
+            return;
+        
         HandleMovement(gameTime);
         HandleShooting();
-        HandleDebug();
     }
 
     private void HandleMovement(GameTime gameTime)
@@ -58,13 +60,6 @@ public class InputController
         if (Keyboard.GetState().IsKeyDown(Keys.Space) && _player.CanShoot)
         {
             _player.IsShooting = true;
-        }
-    }
-
-    private void HandleDebug()
-    {
-        if (Mouse.GetState().RightButton == ButtonState.Pressed)
-        {
         }
     }
 }
