@@ -31,10 +31,18 @@ public class MenuView : View
 
         _particlesView.DrawTimed(gameTime);
 
-        SpriteBatch.DrawString(ViewResources.ComicSansFont, "Ride and Fire",
-            Constants.ScreenCenter - ViewResources.ComicSansFont.MeasureString("Ride and Fire") / 2 +
-            new Vector2(0, -Constants.ScreenHeight / 4f), Color.White);
+        var screenQuarter = new Vector2(0, Constants.ScreenHeight / 4f);
+        var gameNameMessage = "Ride and Fire";
+        var gameNameMessageSize = ViewResources.ComicSansFont.MeasureString(gameNameMessage);
+        SpriteBatch.DrawString(ViewResources.ComicSansFont, gameNameMessage,
+            Constants.ScreenCenter - (gameNameMessageSize / 2) - screenQuarter, Color.White);
 
         _startButton.Draw();
+    }
+
+    public override void Dispose()
+    {
+        _startButton.Click -= StartButtonClicked;
+        _particlesView.Dispose();
     }
 }

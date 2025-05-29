@@ -1,21 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using RideAndFire.Helpers;
 using RideAndFire.Models;
 
 namespace RideAndFire.Controllers;
 
 public class TurretsController
 {
-    private readonly GameModel _gameModel;
+    public event Action? AllTurretsDead;
+
+    private readonly GameModel _model;
     private readonly ShootingController _shootingController;
 
-    public TurretsController(GameModel gameModel, ShootingController shootingController)
+    public TurretsController(GameModel model, ShootingController shootingController)
     {
-        _gameModel = gameModel;
+        _model = model;
         _shootingController = shootingController;
+    }
+
+    public void Initialize()
+    {
+        var turretLocationTiles = new List<TileModel>
+        {
+            _model.Map[2, 2],
+            _model.Map[Constants.MapWidth - 4, 2],
+            _model.Map[Constants.MapWidth - 4, Constants.MapHeight - 4],
+            _model.Map[2, Constants.MapHeight - 4]
+        };
+
+        foreach (var tile in turretLocationTiles)
+        {
+            var turretModel = new TurretModel(tile.Bounds.Location.ToVector2() + new Vector2(Constants.TileSize) +
+                                              Constants.ScreenOffset);
+            turretModel.Dead += OnTurretDead;
+
+            _model.AddTurret(turretModel);
+        }
     }
 
     public void HandleTurretsBehaviour()
@@ -24,22 +46,30 @@ public class TurretsController
         HandleShooting();
     }
 
-    public void ActivateTurrets()
+    public void SetTurretsState(bool isActive)
     {
-        foreach (var turret in _gameModel.Turrets)
+        foreach (var turret in _model.Turrets)
         {
-            turret.IsActive = true;
+            turret.IsActive = isActive;
+        }
+    }
+
+    public void Dispose()
+    {
+        foreach (var turret in _model.Turrets)
+        {
+            turret.Dead -= OnTurretDead;
         }
     }
 
     private void HandleRotation()
     {
-        foreach (var turret in _gameModel.Turrets)
+        foreach (var turret in _model.Turrets)
         {
             if (!turret.IsActive)
                 continue;
 
-            var player = _gameModel.Player;
+            var player = _model.Player;
             var direction = player.Position - turret.Position;
             var targetAngle = MathHelper.PiOver2 + MathF.Atan2(direction.Y, direction.X);
 
@@ -51,10 +81,20 @@ public class TurretsController
 
     private void HandleShooting()
     {
-        var turrets = _gameModel.Turrets;
+        var turrets = _model.Turrets;
         foreach (var turret in turrets.Where(x => x.CanShoot))
         {
             _shootingController.Shoot(turret, ViewResources.TurretMuzzleEndOffset);
+        }
+    }
+
+    private void OnTurretDead(EntityModel entity)
+    {
+        entity.Dead -= OnTurretDead;
+
+        if (_model.Turrets.All(x => x.IsDead))
+        {
+            AllTurretsDead?.Invoke();
         }
     }
 }

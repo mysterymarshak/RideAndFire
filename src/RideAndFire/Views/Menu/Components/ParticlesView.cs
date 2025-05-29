@@ -53,4 +53,10 @@ public class ParticlesView : View
         _particleEffect.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
         SpriteBatch.Draw(_particleEffect);
     }
+
+    public override void Dispose()
+    {
+        _particleTexture.Dispose();
+        _particleEffect.Dispose();
+    }
 }

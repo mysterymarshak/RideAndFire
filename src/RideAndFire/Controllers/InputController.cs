@@ -9,17 +9,19 @@ namespace RideAndFire.Controllers;
 public class InputController
 {
     private readonly PlayerModel _player;
+    private readonly ShootingController _shootingController;
 
-    public InputController(PlayerModel player)
+    public InputController(PlayerModel player, ShootingController shootingController)
     {
         _player = player;
+        _shootingController = shootingController;
     }
 
     public void OnUpdate(GameTime gameTime)
     {
         if (!_player.IsActive)
             return;
-        
+
         HandleMovement(gameTime);
         HandleShooting();
     }
@@ -32,11 +34,11 @@ public class InputController
 
         if (Keyboard.GetState().IsKeyDown(Keys.A))
         {
-            rotation -= Constants.RotationSpeedInRadians * deltaTime;
+            rotation -= Constants.RotationSpeed * deltaTime;
         }
         else if (Keyboard.GetState().IsKeyDown(Keys.D))
         {
-            rotation += Constants.RotationSpeedInRadians * deltaTime;
+            rotation += Constants.RotationSpeed * deltaTime;
         }
 
         var newRotation = _player.Rotation + rotation;
@@ -59,7 +61,7 @@ public class InputController
     {
         if (Keyboard.GetState().IsKeyDown(Keys.Space) && _player.CanShoot)
         {
-            _player.IsShooting = true;
+            _shootingController.Shoot(_player, ViewResources.TankMuzzleEndOffset);
         }
     }
 }

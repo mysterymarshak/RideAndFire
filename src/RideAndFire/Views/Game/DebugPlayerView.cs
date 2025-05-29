@@ -14,7 +14,7 @@ public class DebugPlayerView : PlayerView
     public override void Draw()
     {
         base.Draw();
- 
+
         SpriteBatch.DrawBox(Player.Rectangle, Color.Blue);
     }
 }

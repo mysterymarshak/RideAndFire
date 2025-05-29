@@ -19,8 +19,8 @@ public enum TileType
     Dirt,
 
     Sand,
-    
+
     Wall,
-    
+
     Turret
 }

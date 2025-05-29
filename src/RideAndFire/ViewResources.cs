@@ -23,7 +23,7 @@ public static class ViewResources
     public static Vector2 TurretMuzzleEndOffset => new(2 * Turret.Height / 3f);
     public static Texture2D Button { get; private set; } = null!;
     public static Texture2D ButtonPressed { get; private set; } = null!;
-    
+
     public static void LoadContent(ContentManager contentManager)
     {
         DirtTile = contentManager.Load<Texture2D>("Sprites/Tiles/dirt");

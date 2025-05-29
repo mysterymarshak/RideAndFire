@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using RideAndFire.Models;
+using RideAndFire.Views.Game.Overlays;
 
 namespace RideAndFire.Views.Game;
 
@@ -17,6 +15,8 @@ public class GameView : View
     private MapView _mapView;
     private List<TurretView> _turretViews;
     private List<BulletView> _bulletViews;
+    private GameOverOverlayView _gameOverOverlayView;
+    private ScoreOverlayView _scoreOverlayView;
     private StartOverlayView _startOverlayView;
 
     public GameView(GameModel model, SpriteBatch spriteBatch) : base(spriteBatch)
@@ -41,6 +41,8 @@ public class GameView : View
 #endif
 
         _bulletViews = [];
+        _gameOverOverlayView = new GameOverOverlayView(_model, SpriteBatch);
+        _scoreOverlayView = new ScoreOverlayView(_model, SpriteBatch);
         _startOverlayView = new StartOverlayView(_model, SpriteBatch);
     }
 
@@ -52,6 +54,16 @@ public class GameView : View
         _playerView.Draw();
         _turretViews.ForEach(x => x.Draw());
         _bulletViews.ForEach(x => x.Draw());
+
+        if (_model.Score.IsGameOver)
+        {
+            _gameOverOverlayView.Draw();
+        }
+        else
+        {
+            _scoreOverlayView.Draw();
+        }
+
         _startOverlayView.Draw();
     }
 

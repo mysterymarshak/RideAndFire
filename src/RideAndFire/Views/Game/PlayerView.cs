@@ -9,7 +9,7 @@ namespace RideAndFire.Views.Game;
 public class PlayerView : View
 {
     protected PlayerModel Player { get; }
-    
+
     private readonly HealthBarView _healthBar;
 
     public PlayerView(PlayerModel player, SpriteBatch spriteBatch) : base(spriteBatch)
@@ -28,9 +28,10 @@ public class PlayerView : View
         SpriteBatch.Draw(ViewResources.TankMuzzle,
             Player.Position + new Vector2(ViewResources.TankMuzzleOffset.X * MathF.Sin(angle),
                 -ViewResources.TankMuzzleOffset.Y * MathF.Cos(angle)), null, Color.White, angle,
-            ViewResources.TankMuzzle.Bounds.Center.ToVector2(), Vector2.One * (Player.Size.X / 64f), SpriteEffects.None, 0);
+            ViewResources.TankMuzzle.Bounds.Center.ToVector2(), Vector2.One * (Player.Size.X / 64f), SpriteEffects.None,
+            0);
         // todo: improve
-        
+
         _healthBar.Draw();
     }
 }

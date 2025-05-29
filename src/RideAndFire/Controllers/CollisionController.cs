@@ -33,16 +33,18 @@ public class CollisionController
         var (x, y, width, height) = Constants.MapBounds;
         var velocity = player.Velocity;
 
-        if (newPosition.X - player.Size.X / 2f < x + Constants.TileSize || newPosition.X + player.Size.X / 2f > x + width - Constants.TileSize)
+        if (newPosition.X - player.Size.X / 2f < x + Constants.TileSize ||
+            newPosition.X + player.Size.X / 2f > x + width - Constants.TileSize)
         {
             velocity.X = 0;
         }
 
-        if (newPosition.Y - player.Size.Y / 2f < y + Constants.TileSize || newPosition.Y + player.Size.Y / 2f > y + height - Constants.TileSize)
+        if (newPosition.Y - player.Size.Y / 2f < y + Constants.TileSize ||
+            newPosition.Y + player.Size.Y / 2f > y + height - Constants.TileSize)
         {
             velocity.Y = 0;
         }
-        
+
         // todo: improve
 
         player.Velocity = velocity;

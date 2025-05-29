@@ -9,7 +9,7 @@ namespace RideAndFire.Views.Game;
 public class TurretView : View
 {
     protected TurretModel Turret { get; }
-    
+
     private readonly HealthBarView _healthBar;
 
     public TurretView(TurretModel turret, SpriteBatch spriteBatch) : base(spriteBatch)

@@ -7,8 +7,8 @@ namespace RideAndFire.Controllers;
 
 public class ShootingController
 {
-    public event Action<BulletModel>? BulletCreated;
-    public event Action<BulletModel>? BulletRemoved;
+    public event Action<BulletModel>? BulletCreate;
+    public event Action<BulletModel>? BulletRemove;
 
     private readonly GameModel _gameModel;
 
@@ -60,12 +60,12 @@ public class ShootingController
     private void CreateBullet(BulletModel bullet)
     {
         _gameModel.AddBullet(bullet);
-        BulletCreated?.Invoke(bullet);
+        BulletCreate?.Invoke(bullet);
     }
 
     private void RemoveBullet(BulletModel bullet)
     {
         bullet.MarkForRemoval();
-        BulletRemoved?.Invoke(bullet);
+        BulletRemove?.Invoke(bullet);
     }
 }

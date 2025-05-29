@@ -7,7 +7,6 @@ namespace RideAndFire.Models;
 public abstract class ShooterModel : EntityModel, IShooter
 {
     public virtual bool CanShoot => !IsTimerRunning;
-    public bool IsShooting { get; set; }
 
     protected abstract TimeSpan ShootingCooldown { get; }
     protected bool IsTimerRunning => _cooldownTimer.IsRunning;

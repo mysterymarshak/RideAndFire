@@ -5,6 +5,8 @@ namespace RideAndFire.Models;
 
 public abstract class EntityModel : Model, IDamageable
 {
+    public event Action<EntityModel>? Dead;
+
     public Rectangle Rectangle =>
         new(new Point((int)(Position.X - Size.X / 2f), (int)(Position.Y - Size.Y / 2f)), Size);
 
@@ -49,7 +51,9 @@ public abstract class EntityModel : Model, IDamageable
 
         if (Health == 0)
         {
+            IsActive = false;
             IsDead = true;
+            Dead?.Invoke(this);
         }
     }
 }

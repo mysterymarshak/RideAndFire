@@ -3,9 +3,9 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RideAndFire.Configuration;
 using RideAndFire.Controllers;
 using RideAndFire.Models;
-using RideAndFire.Views;
 using RideAndFire.Views.Game;
 using RideAndFire.Views.Menu;
 
@@ -15,14 +15,17 @@ public class Game : Microsoft.Xna.Framework.Game
 {
     private readonly GraphicsDeviceManager _graphics;
     private readonly StringBuilder _titleBuilder;
+    private readonly ConfigurationController _configurationController;
 
-    private Controller _controller;
+    private GameStateController _controller;
     private SpriteBatch _spriteBatch;
+    private KeyboardState _previousKeyboardState;
 
     public Game()
     {
         _graphics = new GraphicsDeviceManager(this);
         _titleBuilder = new StringBuilder();
+        _configurationController = new ConfigurationController();
     }
 
     protected override void Initialize()
@@ -50,15 +53,27 @@ public class Game : Microsoft.Xna.Framework.Game
 
     protected override void BeginRun()
     {
+        InitializeConfiguration();
         InitializeMenu();
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        var keyboardState = Keyboard.GetState();
+        if (_previousKeyboardState[Keys.Escape] == KeyState.Up && keyboardState[Keys.Escape] == KeyState.Down)
         {
-            Exit();
+            if (_controller is GameController)
+            {
+                _controller.Dispose();
+                InitializeMenu();
+            }
+            else
+            {
+                Exit();
+            }
         }
+
+        _previousKeyboardState = Keyboard.GetState();
 
         _controller.OnUpdate(gameTime);
 
@@ -77,6 +92,11 @@ public class Game : Microsoft.Xna.Framework.Game
         base.Draw(gameTime);
     }
 
+    private void InitializeConfiguration()
+    {
+        _configurationController.Initialize();
+    }
+
     private void InitializeMenu()
     {
         var view = new MenuView(_spriteBatch);
@@ -92,6 +112,7 @@ public class Game : Microsoft.Xna.Framework.Game
     private void OnGameStart()
     {
         ((MenuController)_controller).GameStart -= OnGameStart;
+        _controller.Dispose();
 
         InitializeGame();
     }
@@ -100,8 +121,9 @@ public class Game : Microsoft.Xna.Framework.Game
     {
         var model = new GameModel();
         var view = new GameView(model, _spriteBatch);
-        _controller = new GameController(view, model);
-        
+        var mapGenerationStrategy = new DefaultMapGenerationStrategy();
+        _controller = new GameController(view, model, mapGenerationStrategy, _configurationController);
+
         _controller.Initialize();
         view.Initialize();
     }

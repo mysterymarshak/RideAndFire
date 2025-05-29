@@ -9,7 +9,7 @@ public static class RectangleFExtensions
     {
         var offset = newCenter - rectangle.Center;
         rectangle.Offset(offset.X, offset.Y);
-        
+
         return rectangle;
     }
 }

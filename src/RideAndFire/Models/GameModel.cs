@@ -9,6 +9,7 @@ public class GameModel : Model
     public TimeSpan StartDelayLeft { get; set; } = Constants.StartDelay;
     public TileModel[,] Map { get; set; }
     public PlayerModel Player { get; set; }
+    public ScoreModel Score { get; set; }
     public IEnumerable<BulletModel> Bullets => _bullets;
     public IEnumerable<TurretModel> Turrets => _turrets;
 
@@ -17,10 +18,12 @@ public class GameModel : Model
 
     public override void Update(GameTime gameTime)
     {
-        StartDelayLeft = TimeSpan.FromSeconds(Math.Clamp((StartDelayLeft - gameTime.ElapsedGameTime).TotalSeconds, 0, Constants.StartDelay.TotalSeconds));
+        StartDelayLeft = TimeSpan.FromSeconds(Math.Clamp((StartDelayLeft - gameTime.ElapsedGameTime).TotalSeconds, 0,
+            Constants.StartDelay.TotalSeconds));
         Player.Update(gameTime);
         UpdateBullets(gameTime);
         UpdateTurrets(gameTime);
+        UpdateScore(gameTime);
     }
 
     public void AddBullet(BulletModel bullet)
@@ -55,5 +58,13 @@ public class GameModel : Model
         {
             turret.Update(gameTime);
         }
+    }
+
+    private void UpdateScore(GameTime gameTime)
+    {
+        if (StartDelayLeft != TimeSpan.Zero)
+            return;
+
+        Score.Update(gameTime);
     }
 }

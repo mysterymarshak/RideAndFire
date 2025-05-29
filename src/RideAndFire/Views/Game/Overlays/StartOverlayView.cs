@@ -2,12 +2,11 @@
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
 using RideAndFire.Models;
 
-namespace RideAndFire.Views.Game;
+namespace RideAndFire.Views.Game.Overlays;
 
-public class StartOverlayView : View
+public class StartOverlayView : OverlayView
 {
     private readonly GameModel _model;
     private readonly StringBuilder _startOverlayStringBuilder;
@@ -23,14 +22,12 @@ public class StartOverlayView : View
         var startDelayLeft = _model.StartDelayLeft;
         if (startDelayLeft > TimeSpan.Zero)
         {
-            _startOverlayStringBuilder.Append(startDelayLeft.Seconds + 1);
+            DrawFade();
 
-            SpriteBatch.FillRectangle(
-                new RectangleF(Vector2.Zero, new SizeF(Constants.ScreenWidth, Constants.ScreenHeight)),
-                new Color(Color.Black, 100));
-        
+            _startOverlayStringBuilder.Append(startDelayLeft.Seconds + 1);
             SpriteBatch.DrawString(ViewResources.ComicSansFont, _startOverlayStringBuilder,
-                Constants.MapBounds.Center.ToVector2() - ViewResources.ComicSansFont.MeasureString(_startOverlayStringBuilder) +
+                Constants.MapBounds.Center.ToVector2() -
+                ViewResources.ComicSansFont.MeasureString(_startOverlayStringBuilder) / 2 +
                 new Vector2(0, -Constants.ScreenHeight / 4f), Color.White);
 
             _startOverlayStringBuilder.Clear();

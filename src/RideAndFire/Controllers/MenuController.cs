@@ -4,10 +4,10 @@ using RideAndFire.Views.Menu;
 
 namespace RideAndFire.Controllers;
 
-public class MenuController : Controller
+public class MenuController : GameStateController
 {
     public event Action? GameStart;
-    
+
     private readonly MenuView _view;
     private GameTime _gameTime;
 
@@ -15,7 +15,7 @@ public class MenuController : Controller
     {
         _view = view;
     }
-    
+
     public override void Initialize()
     {
         _view.StartButtonClicked += GameStart;
@@ -30,5 +30,11 @@ public class MenuController : Controller
     {
         _view.Draw();
         _view.DrawTimed(_gameTime);
+    }
+
+    public override void Dispose()
+    {
+        _view.StartButtonClicked -= GameStart;
+        _view.Dispose();
     }
 }

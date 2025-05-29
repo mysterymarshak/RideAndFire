@@ -23,4 +23,8 @@ public abstract class View
     public virtual void Initialize()
     {
     }
+
+    public virtual void Dispose()
+    {
+    }
 }

@@ -8,8 +8,8 @@ public class TurretModel : ShooterModel
 {
     public override Point Size => new(96, 96);
     public override bool CanShoot => IsActive && !IsTimerRunning && IsFocusedOnTarget;
-    public override float MaxHealth { get; protected set; } = 20;
-    public override float Health { get; protected set; } = 20;
+    public override float MaxHealth { get; protected set; } = Constants.TurretHealth;
+    public override float Health { get; protected set; } = Constants.TurretHealth;
     public float AngularVelocity { get; set; }
     public bool IsFocusedOnTarget { get; set; }
 
@@ -22,24 +22,13 @@ public class TurretModel : ShooterModel
 
     public override void Update(GameTime gameTime)
     {
-        var maxRotationVelocity = Constants.MaxTurretRotationSpeedInRadians * gameTime.AsDeltaTime();
+        var maxRotationVelocity = Constants.MaxTurretRotationSpeed * gameTime.AsDeltaTime();
         Rotation += Math.Clamp(AngularVelocity, -maxRotationVelocity, maxRotationVelocity);
 
         AngularVelocity = 0f;
         IsFocusedOnTarget = false;
 
         base.Update(gameTime);
-    }
-
-    public override void OnDamage(float damage)
-    {
-        base.OnDamage(damage);
-
-        if (IsDead)
-        {
-            IsActive = false;
-            Console.WriteLine("turret is dead");
-        }
     }
 
     private TimeSpan GetRandomShootingCooldown()
