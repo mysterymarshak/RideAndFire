@@ -8,6 +8,8 @@ public static class Constants
     public static readonly Vector2 ScreenOffset = new((ScreenWidth - MapWidth * TileSize) / 2f,
         (ScreenHeight - (MapHeight * TileSize)) / 2f);
 
+    public static readonly Vector2 ScreenCenter = new Vector2(ScreenWidth, ScreenHeight) / 2f;
+    
     public static readonly Rectangle MapBounds =
         new(ScreenOffset.ToPoint(), (new Vector2(MapWidth, MapHeight) * TileSize).ToPoint());
 

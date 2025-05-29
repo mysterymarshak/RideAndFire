@@ -12,12 +12,14 @@ public abstract class View
         SpriteBatch = spriteBatch;
     }
 
-    public abstract void Draw();
+    public virtual void Draw()
+    {
+    }
 
     public virtual void DrawTimed(GameTime gameTime)
     {
     }
-    
+
     public virtual void Initialize()
     {
     }

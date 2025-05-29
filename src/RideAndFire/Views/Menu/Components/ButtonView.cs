@@ -9,34 +9,34 @@ namespace RideAndFire.Views.Menu.Components;
 public class ButtonView : View
 {
     public event Action? Click;
-    
-    private Vector2 ScreenCenter => new Vector2(Constants.ScreenWidth, Constants.ScreenHeight) / 2f;
 
-    private Rectangle ButtonBounds => new((ScreenCenter - ViewResources.Button.Bounds.Center.ToVector2()).ToPoint(),
+    private Rectangle ButtonBounds => new(
+        (Constants.ScreenCenter - ViewResources.Button.Bounds.Center.ToVector2()).ToPoint(),
         ViewResources.Button.Bounds.Size);
-    
+
     private MouseState _previousMouseState;
-    
+
     public ButtonView(SpriteBatch spriteBatch) : base(spriteBatch)
     {
     }
-    
+
     public override void Draw()
     {
         var mouseState = Mouse.GetState();
         var cursorOverButton = ButtonBounds.Contains(mouseState.Position);
         var isButtonDown = mouseState.LeftButton == ButtonState.Pressed && cursorOverButton;
-        
-        if (cursorOverButton && _previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
+
+        if (cursorOverButton && _previousMouseState.LeftButton == ButtonState.Pressed &&
+            mouseState.LeftButton == ButtonState.Released)
         {
             Click?.Invoke();
         }
-        
+
         var buttonTexture = isButtonDown ? ViewResources.ButtonPressed : ViewResources.Button;
         SpriteBatch.Draw(buttonTexture, ButtonBounds, null, Color.White);
 
         SpriteBatch.DrawString(ViewResources.BasicFont, "START",
-            ScreenCenter - ViewResources.BasicFont.MeasureString("START") / 2f, Color.Black);
+            Constants.ScreenCenter - ViewResources.BasicFont.MeasureString("START") / 2f, Color.Black);
 
         if (cursorOverButton)
         {
